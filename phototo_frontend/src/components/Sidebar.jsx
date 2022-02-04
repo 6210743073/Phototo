@@ -7,12 +7,12 @@ import logo from '../assets/DarkLogo.png';
 const isNotActiveStyle = "flex  items-center px-5 gap-3 text-gray-500 hover:text-black transition-all duration-200 ease-in-out capitalize";
 const isActiveStyle = "flex  items-center px-5 gap-3 font-extrabold border-r-2 border-black hover transition-all duration-200 ease-in-out capitalize";
 const categories = [
-  { name: 'Animals' },
+/*   { name: 'Animals' },
   { name: 'Wallapapers' },
   { name: 'Photography' },
   { name: 'Gaming' },
   { name: 'Coding' },
-  { name: 'Other' },
+  { name: 'Other' }, */
 ]
 const Sidebar = ({ user, closeToggle }) => {
   const handleCloseSidebar = () => {
@@ -50,7 +50,7 @@ const Sidebar = ({ user, closeToggle }) => {
     {user && (
       <Link
         to={`user-profile/${user._id}`}
-        className='flex my-5 mb-3 gap-2 p-2 items-center bg-white rounded-lg shadow-lg mx-3'
+        className='flex my-5 mb-3 gap-2 p-2 items-center bg-white rounded-lg drop-shadow-md mx-3'
         onClick={handleCloseSidebar}
       >
         <img src={user.image} className='w-10  h-10 rounded-full' alt="user-profile" />

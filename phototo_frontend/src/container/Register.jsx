@@ -1,10 +1,10 @@
 import React, { useState, FormEvent } from "react";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { validRegister } from "../utils/valid";
 import { useNavigate } from "react-router-dom";
-import Errors from "./global/Errors";
-import {client} from "../client"
-
+import Errors from "../components/global/Errors";
+import { client } from "../client";
+import { v4 as uuidv4 } from "uuid";
 const Register = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -12,37 +12,32 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [cf_password, setCfPassword] = useState("");
   const handleSubmit = (e: FormEvent) => {
-    e.preventDefault()
-    const user = { name, email, password, cf_password }
-    const result = validRegister(user)
+    e.preventDefault();
+    const user = { name, email, password, cf_password };
+    const result = validRegister(user);
     if (result.errLength)
       return toast.error(() => <Errors errors={result.errMsg} />);
-    registerwithEmail(user)
+    registerwithEmail(user);
   };
   const registerwithEmail = async (user) => {
     const { name, email, password } = user;
     const doc = {
-      _id: name,
+      _id: uuidv4(),
       _type: "user",
       userName: name,
       email: email,
       password: password,
-
     };
+
     try {
       client.createIfNotExists(doc).then((res) => {
         navigate("/", { replace: true });
-        console.log(res)
+        console.log(res);
       });
-    } catch {
-      
-    }
-
-
+    } catch {}
   };
 
   return (
-
     <div className="flex flex-col md:flex-row-reverse h-screen items-center">
       <div className="hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen">
         <img
@@ -111,7 +106,6 @@ const Register = () => {
             <button
               className="w-full bg-blue-500 hover:bg-blue-400 px-4 py-3 mt-6 rounded-lg font-semibold text-white focus:bg-blue-400 focus:outline-none"
               type="submit"
-
             >
               Register
             </button>

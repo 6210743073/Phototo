@@ -37,7 +37,7 @@ const Login = () => {
           <h1 className="text-xl md:text-2xl font-bold leading-tight mt-12">
             Login to your account
           </h1>
-          <form className="mt-6" action="#" method="POST">
+          <form className="mt-6">
             <div>
               <label className="block text-gray-700">Email Address</label>
               <input
