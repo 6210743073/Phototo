@@ -1,8 +1,12 @@
-import React from "react";
-import GoogleLogin from "react-google-login";
-import { useNavigate } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
-import { client } from "../client";
+import React, { useContext } from 'react'
+import GoogleLogin from 'react-google-login'
+import { useNavigate } from 'react-router-dom'
+import { FcGoogle } from 'react-icons/fc'
+import { client } from '../client'
+import { AuthContext } from './auth'
+import {Redirect} from 'react-router-dom'
+
+
 const Login = () => {
   const navigate = useNavigate();
   const responseGoogle = (response) => {
@@ -19,6 +23,31 @@ const Login = () => {
       navigate("/", { replace: true });
     });
   };
+
+    document.getElementById("").addEventListener(handleSubmit);
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+
+      const {email, password} = e.target.elements;
+
+      try{
+
+        client.auth().signInWithEmailAndPassword(email.value, password.value );
+
+      }catch(error){
+
+        alert(error);
+
+      }
+
+    }
+    const {currentUser} = useContext(AuthContext);
+    if (currentUser) {
+      //function redirect ใช้ไม่ได้ น่าจะเกี่ยวกับ ver.
+      return <Redirect to="/Home" />;
+    }
+
   return (
     <div className="flex flex-col md:flex-row-reverse h-screen items-center">
       <div className="hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen">
@@ -37,7 +66,7 @@ const Login = () => {
           <h1 className="text-xl md:text-2xl font-bold leading-tight mt-12">
             Login to your account
           </h1>
-          <form className="mt-6">
+          <form onClick={handleSubmit} className="mt-6">
             <div>
               <label className="block text-gray-700">Email Address</label>
               <input
@@ -45,6 +74,7 @@ const Login = () => {
                 placeholder="Enter Email Address"
                 className="w-full bg-gray-200 rounded-lg  mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none px-4 py-3"
                 required
+                name="email"
               />
             </div>
             <div className="mt-4 ">
@@ -53,9 +83,10 @@ const Login = () => {
                 type="password"
                 placeholder="Enter Password"
                 minLength={6}
-                name=""
+                name="password"
                 className="w-full bg-gray-200 rounded-lg  mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none px-4 py-3"
                 required
+                
               />
             </div>
 
@@ -66,6 +97,8 @@ const Login = () => {
               Log in
             </button>
           </form>
+
+
           <hr className="my-6 border-gray-300 w-full" />
           <GoogleLogin
             clientId={process.env.REACT_APP_GOOGLE_API_TOKEN}

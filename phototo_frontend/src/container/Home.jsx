@@ -8,6 +8,7 @@ import { client } from "../client";
 import logo from "../assets/DarkLogo.png";
 import { userQuery } from "../utils/data";
 import { fetchUser } from "../utils/fetchUser";
+
 const Home = () => {
   const [toggleSidebar, setToggleSidebar] = useState(false);
   const [user, setUser] = useState(null);

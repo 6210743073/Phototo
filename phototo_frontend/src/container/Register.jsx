@@ -1,42 +1,29 @@
-import React, { useState, FormEvent } from "react";
-import { toast } from "react-toastify";
-import { validRegister } from "../utils/valid";
-import { useNavigate } from "react-router-dom";
-import Errors from "../components/global/Errors";
-import { client } from "../client";
-import { v4 as uuidv4 } from "uuid";
+import React, { useState } from 'react'
+import { client } from '../client'
+import { Redirect } from 'react-router-dom'
+//codeเก่ามากๆ
 const Register = () => {
-  const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [cf_password, setCfPassword] = useState("");
-  const handleSubmit = (e: FormEvent) => {
+  const [currentUser, setCurrentUser] = useState(null);
+
+  document.getElementById("regform").addEventListener(handleSubmit);
+//handleSubmit ถ้าไม่มี document.getElementById("regform").addEventListener(handleSubmit); จะใช้ handleSub ไม่ได้
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const user = { name, email, password, cf_password };
-    const result = validRegister(user);
-    if (result.errLength)
-      return toast.error(() => <Errors errors={result.errMsg} />);
-    registerwithEmail(user);
-  };
-  const registerwithEmail = async (user) => {
-    const { name, email, password } = user;
-    const doc = {
-      _id: uuidv4(),
-      _type: "user",
-      userName: name,
-      email: email,
-      password: password,
-    };
+    const {name,email, password,cf_password} = e.target.element;
 
-    try {
-      client.createIfNotExists(doc).then((res) => {
-        navigate("/", { replace: true });
-        console.log(res);
-      });
-    } catch {}
-  };
+    try{
+        //connect to client(sanity)
+        client.auth().createUserWithEmailAndPassword(name.value ,email.value,password.value,cf_password.value);
+        //setcerrentuser 
+        setCurrentUser(true);
+    }catch(error){
+      alert(error);
+    }
 
+  }
+  if(currentUser){
+    return <Redirect to="/Home" />;
+  }
   return (
     <div className="flex flex-col md:flex-row-reverse h-screen items-center">
       <div className="hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen">
@@ -55,16 +42,16 @@ const Register = () => {
           <h1 className="text-xl md:text-2xl font-bold leading-tight mt-2">
             Register an account
           </h1>
-          <form onSubmit={handleSubmit} className="mt-6">
+
+          <form onSubmit={handleSubmit} id="regform" className="mt-6">
             <div>
               <label className="block text-gray-700">Display Name</label>
               <input
                 type="name"
                 placeholder="Enter Display Name"
                 className="w-full bg-gray-200 rounded-lg mb-3 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none px-4 py-3"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                name="name"
+                
               />
             </div>
             <div>
@@ -74,9 +61,8 @@ const Register = () => {
                 placeholder="Enter Email Address"
                 className="w-full bg-gray-200 rounded-lg  mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none px-4 py-3"
                 required
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                name="email"
+                
               />
             </div>
             <div className="mt-4 ">
@@ -85,10 +71,9 @@ const Register = () => {
                 type="password"
                 placeholder="Enter Password"
                 minLength={6}
-                id="password"
                 className="w-full bg-gray-200 rounded-lg  mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none px-4 py-3"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                name="password"
+                
               />
             </div>
             <div className="mt-4 ">
@@ -97,18 +82,19 @@ const Register = () => {
                 type="password"
                 placeholder="Comfirm Password"
                 minLength={6}
-                id="cf_password"
+                name="cf_password"
+                
                 className="w-full bg-gray-200 rounded-lg  mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none px-4 py-3"
-                value={cf_password}
-                onChange={(e) => setCfPassword(e.target.value)}
               />
             </div>
-            <button
-              className="w-full bg-blue-500 hover:bg-blue-400 px-4 py-3 mt-6 rounded-lg font-semibold text-white focus:bg-blue-400 focus:outline-none"
-              type="submit"
+            <a href="/Home" 
+            className="reg_button"
+            type="submit"
+            
             >
               Register
-            </button>
+            </a>
+            
           </form>
           <hr className="my-6 border-gray-300 w-full" />
 
@@ -127,7 +113,7 @@ const Register = () => {
         </div>
       </div>
     </div>
-  );
+  )
+    
 };
-
 export default Register;

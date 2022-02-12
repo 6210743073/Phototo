@@ -1,11 +1,11 @@
 {
   "root": true,
-  "project": {
-    "name": "phototo"
-  },
   "api": {
     "projectId": "qyf1pzxp",
     "dataset": "production"
+  },
+  "project": {
+    "name": "phototo"
   },
   "plugins": [
     "@sanity/base",
