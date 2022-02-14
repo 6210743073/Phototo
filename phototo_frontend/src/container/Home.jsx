@@ -11,16 +11,19 @@ import { userQuery } from "../utils/data";
 import { fetchUser } from "../utils/fetchUser";
 const Home = () => {
   const [toggleSidebar, setToggleSidebar] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
   const scrollRef = useRef(null);
-  const userInfo = fetchUser();
+
+  const userInfo =
+    localStorage.getItem("user") !== "undefined"
+      ? JSON.parse(localStorage.getItem("user"))
+      : localStorage.clear();
 
   useEffect(() => {
     const query = userQuery(userInfo?.googleId);
     client.fetch(query).then((data) => {
       setUser(data[0]);
     });
-    console.log(user);
   }, []);
 
   useEffect(() => {
@@ -41,7 +44,7 @@ const Home = () => {
           <Link to="/">
             <img src={logo} alt="logo" className="w-28" />
           </Link>
-          <Link to={`user-profile/${user?.googleId}`}>
+          <Link to={`user-profile/${user?._id}`}>
             <img
               src={user?.image}
               alt="user-pic"
