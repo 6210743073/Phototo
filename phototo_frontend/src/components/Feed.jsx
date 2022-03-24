@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
-import { client } from '../client';
-import { feedQuery, searchQuery } from '../utils/data';
-import MasonryLayout from './MasonryLayout';
-import Spinner from './Spinner';
+import { client } from "../client";
+import { feedQuery, searchQuery } from "../utils/data";
+import MasonryLayout from "./MasonryLayout";
+import Spinner from "./Spinner";
 
 const Feed = () => {
   const [pins, setPins] = useState();
@@ -28,19 +28,15 @@ const Feed = () => {
       });
     }
   }, [categoryId]);
-  const ideaName = categoryId || 'new';
-  if (loading) {
+  const ideaName = categoryId || "new";
+  if (loading)
     return (
       <Spinner message={`We are adding ${ideaName} ideas to your feed!`} />
     );
-  }
-  return (
-    <div>
-      {pins && (
-        <MasonryLayout pins={pins} />
-      )}
-    </div>
-  );
+
+  if (!pins?.length) return <h2>No pin available</h2>;
+
+  return <div>{pins && <MasonryLayout pins={pins} />}</div>;
 };
 
 export default Feed;

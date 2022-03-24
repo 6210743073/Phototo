@@ -1,13 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("https://fonts.googleapis.com/css2?family=Prompt&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap");
 html {
   height: 100%;
 }
 body {
   min-height: 100%;
-  font-family: "Prompt", sans-serif;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
 }
 
 .hide-scrollbar::-webkit-scrollbar {

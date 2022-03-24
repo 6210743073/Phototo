@@ -80,6 +80,7 @@ const Pin = ({ pin }) => {
       <div
         onMouseEnter={() => setPostHovered(true)}
         onMouseLeave={() => setPostHovered(false)}
+        onClick={() => navigate(`/pin-detail/${_id}`)}
         className=" relative cursor-zoom-in w-auto hover:shadow-lg overflow-hidden transition-all duration-500 ease-in-out"
       >
         <img
@@ -128,9 +129,9 @@ const Pin = ({ pin }) => {
                     {pin?.save?.length}
                   </div>
                   {savingPost ? (
-                    <FaHeart className="text-red-500"/>
+                    <FaHeart className="text-red-500" />
                   ) : (
-                    <FaRegHeart  />
+                    <FaRegHeart />
                   )}
                 </button>
               )}

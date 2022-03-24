@@ -6,7 +6,7 @@ import { Sidebar } from "../components";
 import UserProfile from "../components/UserProfile";
 import Pins from "./Pins";
 import { client } from "../client";
-import logo from "../assets/DarkLogo.png";
+import logo from "../assets/logo.png";
 import { userQuery } from "../utils/data";
 import { fetchUser } from "../utils/fetchUser";
 const Home = () => {
@@ -42,7 +42,7 @@ const Home = () => {
             onClick={() => setToggleSidebar(true)}
           />
           <Link to="/">
-            <img src={logo} alt="logo" className="w-28" />
+            <img src={logo} alt="logo" className="w-40" />
           </Link>
           <Link to={`user-profile/${user?._id}`}>
             <img
